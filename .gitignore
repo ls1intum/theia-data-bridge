@@ -25,6 +25,7 @@ yarn-error.log*
 # Testing
 .nyc_output/
 coverage/
+.vscode-test/
 
 # Environment
 .env

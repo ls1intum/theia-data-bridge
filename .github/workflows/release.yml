@@ -47,14 +47,14 @@ jobs:
                 TAG=${{ github.event.release.tag_name }}
                 echo "VERSION=${TAG#v}" >> $GITHUB_OUTPUT
 
-            # Release to VS Code Marketplace
-            - name: Publish to VS Code Marketplace
-              run: pnpm exec vsce publish --packagePath ./theia-credential-bridge-${{ steps.strip-v.outputs.VERSION }}.vsix -p ${{ secrets.PUBLISH_TOKEN }}
+            # # Release to VS Code Marketplace
+            # - name: Publish to VS Code Marketplace
+            #   run: pnpm exec vsce publish --packagePath ./theia-credential-bridge-${{ steps.strip-v.outputs.VERSION }}.vsix -p ${{ secrets.PUBLISH_TOKEN }}
             
-            # Release to Open VSX Registry (for Eclipse Theia)
-            - name: Publish to Open VSX Registry
-              id: ovsx-publish
-              run: pnpm exec ovsx publish -p ${{ secrets.PUBLISH_VSX }} ./theia-credential-bridge-${{ steps.strip-v.outputs.VERSION }}.vsix
+            # # Release to Open VSX Registry (for Eclipse Theia)
+            # - name: Publish to Open VSX Registry
+            #   id: ovsx-publish
+            #   run: pnpm exec ovsx publish -p ${{ secrets.PUBLISH_VSX }} ./theia-credential-bridge-${{ steps.strip-v.outputs.VERSION }}.vsix
 
             # Upload artifact as a release asset
             - name: Upload Release Asset

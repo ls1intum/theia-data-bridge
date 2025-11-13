@@ -4,6 +4,7 @@
     "description": "Allows runtime configuration of cloud-based Theia IDEs",
     "version": "0.0.1",
     "publisher": "tum-aet",
+    "type": "module",
     "repository": {
         "type": "git",
         "url": "https://github.com/ls1intum/theia-credential-bridge"
@@ -59,5 +60,10 @@
         "@hono/node-server": "^1.19.6",
         "arktype": "^2.1.26",
         "hono": "^4.10.5"
+    },
+    "pnpm": {
+        "overrides": {
+            "@ark/util": "0.54.0"
+        }
     }
 }

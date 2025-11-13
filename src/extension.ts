@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import { serve } from "@hono/node-server";
-import app from "./server";
+import app from "./server/index.ts";
 
 let server: ReturnType<typeof serve> | undefined;
 

@@ -22,8 +22,8 @@
     "contributes": {
         "commands": [
             {
-                "command": "theia-credential-bridge.helloWorld",
-                "title": "Hello World"
+                "command": "credentialBridge.getEnv",
+                "title": "Retrieve a list of environment variables"
             }
         ]
     },

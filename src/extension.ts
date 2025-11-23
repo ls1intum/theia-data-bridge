@@ -20,7 +20,7 @@ export function activate(context: vscode.ExtensionContext) {
 // This method is called when your extension is deactivated
 export function deactivate() {
     if (server) {
-        console.log("[theia-credential-bridge] Shutting down HTTP server...");
+        console.log("[credential-bridge] Shutting down HTTP server...");
         server.close();
     }
 }

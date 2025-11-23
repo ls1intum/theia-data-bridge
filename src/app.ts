@@ -5,6 +5,8 @@ import { type } from "arktype";
 import credentialService from "./service/credentials.ts";
 import { serve, type ServerType } from "@hono/node-server";
 
+const DEFAULT_PORT = 16281;
+
 function createApp() {
     const app = new Hono();
 
@@ -63,12 +65,24 @@ function createApp() {
     return app;
 }
 
+function getPort(): number {
+    const portFromEnv = process.env.CREDENTIAL_BRIDGE_PORT;
+    if (portFromEnv) {
+        const parsedPortFromEnv = parseInt(portFromEnv);
+        // validate the port to be a valid port number
+        if (isNaN(parsedPortFromEnv) || parsedPortFromEnv < 1 || parsedPortFromEnv > 65535) {
+            return DEFAULT_PORT;
+        }
+        return parsedPortFromEnv;
+    }
+    return DEFAULT_PORT;
+}
+
 export function startServer(): ServerType | undefined {
     try {
         const app = createApp();
-        const port = 16281;
         const hostname = "0.0.0.0";
-
+        const port = getPort();
         const server = serve({
             ...app,
             port,

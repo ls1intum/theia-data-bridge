@@ -1,3 +1,5 @@
+import * as vscode from "vscode";
+
 interface Storage {
     environment: Record<string, string>;
 }
@@ -17,6 +19,8 @@ class CredentialStorage {
 
     public setEnv(key: string, value: string): void {
         this.storage.environment[key] = value;
+        // Temporary debugging message to confirm successful storage
+        vscode.window.showInformationMessage(`Environment variable ${key} set to ${value}`);
     }
 }
 

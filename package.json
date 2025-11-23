@@ -1,6 +1,6 @@
 {
-    "name": "theia-credential-bridge",
-    "displayName": "Theia Credential Bridge",
+    "name": "credential-bridge",
+    "displayName": "Credential Bridge",
     "description": "Allows runtime configuration of cloud-based Theia IDEs",
     "version": "0.0.1",
     "publisher": "tum-aet",

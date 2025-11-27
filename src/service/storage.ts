@@ -4,7 +4,7 @@ interface Storage {
     environment: Record<string, string>;
 }
 
-class CredentialStorage {
+class DataStorage {
     private storage: Storage;
 
     constructor() {
@@ -24,6 +24,6 @@ class CredentialStorage {
     }
 }
 
-const credentialStorage = new CredentialStorage();
+const dataStorage = new DataStorage();
 
-export default credentialStorage;
+export default dataStorage;

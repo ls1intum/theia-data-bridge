@@ -1,6 +1,6 @@
-# Release Guide for Theia Credential Bridge
+# Release Guide for Theia Data Bridge
 
-This document describes how to release new versions of the theia-credential-bridge extension using GitHub Actions.
+This document describes how to release new versions of the theia-data-bridge extension using GitHub Actions.
 
 ## Overview
 
@@ -103,7 +103,7 @@ pnpm run package
 ```
 
 This creates a `.vsix` file that you can:
-- Install locally: `code --install-extension theia-credential-bridge-0.0.1.vsix`
+- Install locally: `code --install-extension theia-data-bridge-0.0.1.vsix`
 - Share with others for testing
 - Manually upload to the marketplace
 
@@ -126,14 +126,14 @@ pnpm run build && pnpm run package
 
 # Share the generated .vsix file
 # Install on target machine:
-code --install-extension theia-credential-bridge-X.Y.Z.vsix
+code --install-extension theia-data-bridge-X.Y.Z.vsix
 ```
 
 ### Method 3: Install via Command Line
 
 ```bash
 # From a URL (after GitHub release)
-code --install-extension https://github.com/YOUR_ORG/theia-credential-bridge/releases/download/v0.1.0/theia-credential-bridge-0.1.0.vsix
+code --install-extension https://github.com/YOUR_ORG/theia-data-bridge/releases/download/v0.1.0/theia-data-bridge-0.1.0.vsix
 ```
 
 ## Version Numbering
@@ -172,7 +172,7 @@ Common issues:
 
 ### Extension Not Working After Install
 
-1. Check the extension logs: View → Output → Select "theia-credential-bridge"
+1. Check the extension logs: View → Output → Select "theia-data-bridge"
 2. Verify the server started: Look for "HTTP server started" message
 3. Test the server: `curl http://127.0.0.1:16281/`
 

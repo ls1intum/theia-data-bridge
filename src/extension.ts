@@ -14,13 +14,13 @@ export function activate(context: vscode.ExtensionContext) {
     server = startServer();
 
     // Temporary debugging message to confirm successful start
-    vscode.window.showInformationMessage("Credential Bridge server started");
+    vscode.window.showInformationMessage("Data Bridge server started");
 }
 
 // This method is called when your extension is deactivated
 export function deactivate() {
     if (server) {
-        console.log("[credential-bridge] Shutting down HTTP server...");
+        console.log("[data-bridge] Shutting down HTTP server...");
         server.close();
     }
 }

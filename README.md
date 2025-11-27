@@ -1,26 +1,26 @@
-# Theia Credential Bridge
+# Theia Data Bridge
 
-The theia creential bridge is a VSCode extension allowing injecting and retrieving credentials. The injection is done via HTTP requests
+The theia creential bridge is a VSCode extension allowing injecting and retrieving data. The injection is done via HTTP requests
 from the VSCode host and the retrieval is handled using VSCode commands.
 
 ## Architecture
 
-### Credential Injection
+### CredDataential Injection
 
 The extension exposes a lean HTTP server running on `0.0.0.0:16281`.
 
-It offes an endpoint `POST /credentials` to inject credentials.
+It offers an endpoint `POST /data` to inject data.
 
-It will store those credentials in memory and offer them to other extensions via VSCode commands.
+It will store those data in memory and offer them to other extensions via VSCode commands.
 
-### Credential Retrieval
+### Data Retrieval
 
-The extension exposes a set of VSCode commands to handle retrieval of credentials.
+The extension exposes a set of VSCode commands to handle retrieval of data.
 
-- `credentialBridge.getEnv`
+- `dataBridge.getEnv`
     - Takes a list of environment variables
     - Returns a dictionary of stored environment variables
 
-### Creedential Storage
+### Data Storage
 
-The extension will store the credentials in memory.
+The extension will store the data in memory.

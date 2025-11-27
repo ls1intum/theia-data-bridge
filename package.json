@@ -1,12 +1,12 @@
 {
-    "name": "credential-bridge",
-    "displayName": "Credential Bridge",
+    "name": "data-bridge",
+    "displayName": "Data Bridge",
     "description": "Allows runtime configuration of cloud-based Theia IDEs",
     "version": "0.0.1",
     "publisher": "tum-aet",
     "repository": {
         "type": "git",
-        "url": "https://github.com/ls1intum/theia-credential-bridge"
+        "url": "https://github.com/ls1intum/theia-data-bridge"
     },
     "engines": {
         "vscode": "^1.106.0"
@@ -21,7 +21,7 @@
     "contributes": {
         "commands": [
             {
-                "command": "credentialBridge.getEnv",
+                "command": "dataBridge.getEnv",
                 "title": "Retrieve a list of environment variables"
             }
         ]

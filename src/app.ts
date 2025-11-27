@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import { validator } from "hono/validator";
-import { credentialInjectRequestSchema } from "./schema.ts";
+import { dataInjectRequestSchema } from "./schema.ts";
 import { type } from "arktype";
-import credentialService from "./service/credentials.ts";
+import dataService from "./service/data.ts";
 import { serve, type ServerType } from "@hono/node-server";
 
 const DEFAULT_PORT = 16281;
@@ -12,9 +12,9 @@ function createApp() {
 
     // Health check endpoint
     app.post(
-        "/credentials",
+        "/data",
         validator("json", (value, c) => {
-            const parsed = credentialInjectRequestSchema(value);
+            const parsed = dataInjectRequestSchema(value);
             if (parsed instanceof type.errors) {
                 return c.json(
                     {
@@ -27,7 +27,7 @@ function createApp() {
         }),
         async (c) => {
             const body = c.req.valid("json");
-            const response = credentialService.inject(body);
+            const response = dataService.inject(body);
             return c.json(response);
         },
     );
@@ -40,7 +40,7 @@ function createApp() {
 
     // 404 handler
     app.notFound((c) => {
-        console.log(`[credential-bridge] 404 - Not found: ${c.req.path}`);
+        console.log(`[data-bridge] 404 - Not found: ${c.req.path}`);
         return c.json(
             {
                 error: "Not found",
@@ -52,7 +52,7 @@ function createApp() {
 
     // Error handler
     app.onError((err, c) => {
-        console.error("[credential-bridge] Error:", err);
+        console.error("[data-bridge] Error:", err);
         return c.json(
             {
                 error: "Internal server error",
@@ -66,7 +66,7 @@ function createApp() {
 }
 
 function getPort(): number {
-    const portFromEnv = process.env.CREDENTIAL_BRIDGE_PORT;
+    const portFromEnv = process.env.DATA_BRIDGE_PORT;
     if (portFromEnv) {
         const parsedPortFromEnv = parseInt(portFromEnv);
         // validate the port to be a valid port number
@@ -89,11 +89,11 @@ export function startServer(): ServerType | undefined {
             hostname,
         });
 
-        console.log(`[credential-bridge] HTTP server started on http://${hostname}:${port}`);
+        console.log(`[data-bridge] HTTP server started on http://${hostname}:${port}`);
 
         return server;
     } catch (error) {
-        console.error("[credential-bridge] Failed to start server:", error);
+        console.error("[data-bridge] Failed to start server:", error);
         return undefined;
     }
 }

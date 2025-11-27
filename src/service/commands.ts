@@ -1,12 +1,12 @@
 import { type, type Type } from "arktype";
 import * as vscode from "vscode";
 import { getEnvSchema } from "../schema";
-import credentialService from "./credentials";
+import dataService from "./data";
 
 // manages VSCode commands
 export default class CommandRegistry {
     private context: vscode.ExtensionContext;
-    private static readonly COMMAND_PREFIX = "credentialBridge";
+    private static readonly COMMAND_PREFIX = "dataBridge";
 
     constructor(context: vscode.ExtensionContext) {
         this.context = context;
@@ -15,7 +15,7 @@ export default class CommandRegistry {
     // registers all VSCode commands in the context
     public registerCommands() {
         this.registerCommand("getEnv", getEnvSchema, (request) => {
-            return credentialService.getEnvVars(request);
+            return dataService.getEnvVars(request);
         });
     }
 

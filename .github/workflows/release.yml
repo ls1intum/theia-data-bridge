@@ -25,7 +25,7 @@ jobs:
             - name: Download VSIX artifact
               uses: actions/download-artifact@v4
               with:
-                  name: credential-bridge-${{ github.event.release.tag_name }}.vsix
+                  name: data-bridge-${{ github.event.release.tag_name }}.vsix
                   path: .
 
             - uses: pnpm/action-setup@v4
@@ -49,16 +49,16 @@ jobs:
 
             # # Release to VS Code Marketplace
             # - name: Publish to VS Code Marketplace
-            #   run: pnpm exec vsce publish --packagePath ./credential-bridge-${{ steps.strip-v.outputs.VERSION }}.vsix -p ${{ secrets.PUBLISH_TOKEN }}
+            #   run: pnpm exec vsce publish --packagePath ./data-bridge-${{ steps.strip-v.outputs.VERSION }}.vsix -p ${{ secrets.PUBLISH_TOKEN }}
             
             # # Release to Open VSX Registry (for Eclipse Theia)
             # - name: Publish to Open VSX Registry
             #   id: ovsx-publish
-            #   run: pnpm exec ovsx publish -p ${{ secrets.PUBLISH_VSX }} ./credential-bridge-${{ steps.strip-v.outputs.VERSION }}.vsix
+            #   run: pnpm exec ovsx publish -p ${{ secrets.PUBLISH_VSX }} ./data-bridge-${{ steps.strip-v.outputs.VERSION }}.vsix
 
             # Upload artifact as a release asset
             - name: Upload Release Asset
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: gh release upload ${{ github.event.release.tag_name }} ./credential-bridge-${{ steps.strip-v.outputs.VERSION }}.vsix
+              run: gh release upload ${{ github.event.release.tag_name }} ./data-bridge-${{ steps.strip-v.outputs.VERSION }}.vsix
 

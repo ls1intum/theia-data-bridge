@@ -23,8 +23,23 @@
             {
                 "command": "dataBridge.getEnv",
                 "title": "Retrieve a list of environment variables"
+            },
+            {
+                "command": "dataBridge.showLogs",
+                "title": "Data Bridge: Show Logs"
             }
-        ]
+        ],
+        "configuration": {
+            "title": "Data Bridge",
+            "properties": {
+                "dataBridge.logLevel": {
+                    "type": "string",
+                    "enum": ["DEBUG", "INFO", "WARN", "ERROR"],
+                    "default": "DEBUG",
+                    "description": "Controls the verbosity of logging in the Data Bridge output channel."
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "pnpm run build",

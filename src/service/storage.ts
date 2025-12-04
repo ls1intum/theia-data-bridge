@@ -1,4 +1,4 @@
-import * as vscode from "vscode";
+import logger from "./logger";
 
 interface Storage {
     environment: Record<string, string>;
@@ -19,8 +19,7 @@ class DataStorage {
 
     public setEnv(key: string, value: string): void {
         this.storage.environment[key] = value;
-        // Temporary debugging message to confirm successful storage
-        vscode.window.showInformationMessage(`Environment variable ${key} set to ${value}`);
+        logger.debug(`Environment variable set: ${key}`);
     }
 }
 

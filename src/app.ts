@@ -4,11 +4,20 @@ import { dataInjectRequestSchema } from "./schema.ts";
 import { type } from "arktype";
 import dataService from "./service/data.ts";
 import { serve, type ServerType } from "@hono/node-server";
+import logger from "./service/logger.ts";
 
 const DEFAULT_PORT = 16281;
 
 function createApp() {
     const app = new Hono();
+
+    // Request logging middleware
+    app.use("*", async (c, next) => {
+        const start = Date.now();
+        await next();
+        const duration = Date.now() - start;
+        logger.debug(`${c.req.method} ${c.req.path} ${c.res.status} (${duration}ms)`);
+    });
 
     // Health check endpoint
     app.post(
@@ -40,7 +49,7 @@ function createApp() {
 
     // 404 handler
     app.notFound((c) => {
-        console.log(`[data-bridge] 404 - Not found: ${c.req.path}`);
+        logger.warn(`404 - Not found: ${c.req.path}`);
         return c.json(
             {
                 error: "Not found",
@@ -52,7 +61,7 @@ function createApp() {
 
     // Error handler
     app.onError((err, c) => {
-        console.error("[data-bridge] Error:", err);
+        logger.error("Internal server error", err);
         return c.json(
             {
                 error: "Internal server error",
@@ -89,11 +98,11 @@ export function startServer(): ServerType | undefined {
             hostname,
         });
 
-        console.log(`[data-bridge] HTTP server started on http://${hostname}:${port}`);
+        logger.info(`HTTP server started on http://${hostname}:${port}`);
 
         return server;
     } catch (error) {
-        console.error("[data-bridge] Failed to start server:", error);
+        logger.error("Failed to start server", error);
         return undefined;
     }
 }

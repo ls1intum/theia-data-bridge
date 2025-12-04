@@ -3,6 +3,7 @@
 import * as vscode from "vscode";
 import { startServer } from "./app.ts";
 import CommandRegistry from "./service/commands.ts";
+import logger from "./service/logger.ts";
 
 let server: ReturnType<typeof startServer>;
 
@@ -12,15 +13,15 @@ export function activate(context: vscode.ExtensionContext) {
     commandRegistry.registerCommands();
 
     server = startServer();
+    logger.info("Data Bridge extension activated and server started");
 
-    // Temporary debugging message to confirm successful start
-    vscode.window.showInformationMessage("Data Bridge server started");
+    context.subscriptions.push(logger);
 }
 
 // This method is called when your extension is deactivated
 export function deactivate() {
     if (server) {
-        console.log("[data-bridge] Shutting down HTTP server...");
+        logger.info("Shutting down HTTP server");
         server.close();
     }
 }

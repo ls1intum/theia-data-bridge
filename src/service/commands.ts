@@ -2,6 +2,7 @@ import { type, type Type } from "arktype";
 import * as vscode from "vscode";
 import { getEnvSchema } from "../schema";
 import dataService from "./data";
+import logger from "./logger";
 
 // manages VSCode commands
 export default class CommandRegistry {
@@ -17,6 +18,15 @@ export default class CommandRegistry {
         this.registerCommand("getEnv", getEnvSchema, (request) => {
             return dataService.getEnvVars(request);
         });
+
+        // Register command to show logs (no validation needed)
+        const showLogsDisposable = vscode.commands.registerCommand(
+            `${CommandRegistry.COMMAND_PREFIX}.showLogs`,
+            () => {
+                logger.show();
+            },
+        );
+        this.context.subscriptions.push(showLogsDisposable);
     }
 
     private registerCommand<T extends Type>(
@@ -30,12 +40,10 @@ export default class CommandRegistry {
                 // we enforce a single argument for the command
                 const request = schema(args);
                 if (request instanceof type.errors) {
-                    // Temporary error message to ease debugging
-                    vscode.window.showErrorMessage(
-                        `Invalid request for command ${name}: ${request.summary}`,
-                    );
+                    logger.error(`Invalid request for command ${name}`, new Error(request.summary));
                     return request.summary;
                 }
+                logger.debug(`Executing command ${name}`, args);
                 return callback(request);
             },
         );

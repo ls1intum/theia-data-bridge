@@ -24,3 +24,42 @@ The extension exposes a set of VSCode commands to handle retrieval of data.
 ### Data Storage
 
 The extension will store the data in memory.
+
+## Development
+
+### Logging
+
+The extension uses a centralized logger service (`src/service/logger.ts`) with an output channel for logging.
+
+**Usage:**
+
+```typescript
+import logger from "./service/logger";
+
+// Log levels
+logger.debug("Detailed debugging info");      // Only shown if log level is DEBUG
+logger.info("General information");           // Default level
+logger.warn("Warning message");               // Warnings
+logger.error("Error occurred", error);        // Errors with stack traces
+
+// View logs
+// Method 1: Command Palette → "Data Bridge: Show Logs"
+// Method 2: View → Output → Select "Data Bridge" from dropdown
+```
+
+**Configuration:**
+
+Set the log level in VS Code settings:
+
+```json
+{
+  "dataBridge.logLevel": "DEBUG"  // Options: DEBUG, INFO, WARN, ERROR
+}
+```
+
+**Guidelines:**
+- Use `logger.debug()` for detailed tracing (e.g., command args, iteration details)
+- Use `logger.info()` for important state changes (e.g., server started, data injected)
+- Use `logger.warn()` for recoverable issues (e.g., 404s, validation warnings)
+- Use `logger.error()` for failures (e.g., server errors, exceptions)
+- Never use `showInformationMessage()` for routine operations—reserve for critical user notifications only

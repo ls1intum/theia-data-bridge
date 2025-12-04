@@ -26,7 +26,8 @@ export default class CommandRegistry {
     ) {
         const disposable = vscode.commands.registerCommand(
             `${CommandRegistry.COMMAND_PREFIX}.${name}`,
-            (...args: unknown[]) => {
+            (args) => {
+                // we enforce a single argument for the command
                 const request = schema(args);
                 if (request instanceof type.errors) {
                     // Temporary error message to ease debugging

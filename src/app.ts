@@ -19,7 +19,7 @@ function createApp(dataService: DataService) {
         logger.debug(`${c.req.method} ${c.req.path} ${c.res.status} (${duration}ms)`);
     });
 
-    // Health check endpoint
+    // Data injection endpoint
     app.post(
         "/data",
         validator("json", (value, c) => {

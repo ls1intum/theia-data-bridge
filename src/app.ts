@@ -2,13 +2,13 @@ import { Hono } from "hono";
 import { validator } from "hono/validator";
 import { dataInjectRequestSchema } from "./schema.ts";
 import { type } from "arktype";
-import dataService from "./service/data.ts";
+import type DataService from "./service/data.ts";
 import { serve, type ServerType } from "@hono/node-server";
 import logger from "./service/logger.ts";
 
 const DEFAULT_PORT = 16281;
 
-function createApp() {
+function createApp(dataService: DataService) {
     const app = new Hono();
 
     // Request logging middleware
@@ -36,7 +36,7 @@ function createApp() {
         }),
         async (c) => {
             const body = c.req.valid("json");
-            const response = dataService.inject(body);
+            const response = await dataService.inject(body);
             return c.json(response);
         },
     );
@@ -87,9 +87,9 @@ function getPort(): number {
     return DEFAULT_PORT;
 }
 
-export function startServer(): ServerType | undefined {
+export function startServer(dataService: DataService): ServerType | undefined {
     try {
-        const app = createApp();
+        const app = createApp(dataService);
         const hostname = "0.0.0.0";
         const port = getPort();
         const server = serve({

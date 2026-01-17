@@ -1,28 +1,40 @@
 import logger from "./logger";
+import type SecretStoragePersistence from "./persistence";
 
 interface Storage {
     environment: Record<string, string>;
 }
 
-class DataStorage {
-    private storage: Storage;
+export default class DataStorage {
+    private readonly storage: Storage;
+    private readonly persistence: SecretStoragePersistence;
 
-    constructor() {
+    private constructor(persistence: SecretStoragePersistence) {
         this.storage = {
             environment: {},
         };
+        this.persistence = persistence;
+    }
+
+    public static async withPersistence(
+        persistence: SecretStoragePersistence,
+    ): Promise<DataStorage> {
+        const storage = new DataStorage(persistence);
+        const persisted = await persistence.loadAll();
+        storage.storage.environment = persisted;
+        logger.info(`Loaded ${Object.keys(persisted).length} persisted env var(s)`);
+        return storage;
     }
 
     public getEnv(key: string): string | undefined {
         return this.storage.environment[key];
     }
 
-    public setEnv(key: string, value: string): void {
+    public async setEnv(key: string, value: string): Promise<void> {
         this.storage.environment[key] = value;
         logger.debug(`Environment variable set: ${key}`);
+        if (this.persistence) {
+            await this.persistence.saveAll(this.storage.environment);
+        }
     }
 }
-
-const dataStorage = new DataStorage();
-
-export default dataStorage;

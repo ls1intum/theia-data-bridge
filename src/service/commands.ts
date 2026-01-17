@@ -1,22 +1,24 @@
 import { type, type Type } from "arktype";
 import * as vscode from "vscode";
 import { getEnvSchema } from "../schema";
-import dataService from "./data";
+import type DataService from "./data";
 import logger from "./logger";
 
 // manages VSCode commands
 export default class CommandRegistry {
     private context: vscode.ExtensionContext;
+    private dataService: DataService;
     private static readonly COMMAND_PREFIX = "dataBridge";
 
-    constructor(context: vscode.ExtensionContext) {
+    constructor(context: vscode.ExtensionContext, dataService: DataService) {
         this.context = context;
+        this.dataService = dataService;
     }
 
     // registers all VSCode commands in the context
     public registerCommands() {
         this.registerCommand("getEnv", getEnvSchema, (request) => {
-            return dataService.getEnvVars(request);
+            return this.dataService.getEnvVars(request);
         });
 
         // Register command to show logs (no validation needed)

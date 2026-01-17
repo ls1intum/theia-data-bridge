@@ -14,20 +14,37 @@ export async function activate(context: vscode.ExtensionContext) {
     }
 
     // import only if the extension should be activated
-    const [{ startServer }, { default: logger }, { default: CommandRegistry }] = await Promise.all([
+    const [
+        { startServer },
+        { default: logger },
+        { default: CommandRegistry },
+        { default: DataStorage },
+        { default: DataService },
+        { default: SecretStoragePersistence },
+    ] = await Promise.all([
         import("./app.ts"),
         import("./service/logger.ts"),
         import("./service/commands.ts"),
+        import("./service/storage.ts"),
+        import("./service/data.ts"),
+        import("./service/persistence.ts"),
     ]);
 
-    const commandRegistry = new CommandRegistry(context);
+    try {
+        const persistence = new SecretStoragePersistence(context.secrets);
+        const dataStorage = await DataStorage.withPersistence(persistence);
 
-    commandRegistry.registerCommands();
+        const dataService = new DataService(dataStorage);
+        const commandRegistry = new CommandRegistry(context, dataService);
+        commandRegistry.registerCommands();
 
-    server = startServer();
-    logger.info("Data Bridge extension activated and server started");
+        server = startServer(dataService);
+        logger.info("Data Bridge extension activated and server started");
 
-    context.subscriptions.push(logger);
+        context.subscriptions.push(logger);
+    } catch (error) {
+        logger.error("Failed to activate Data Bridge extension", error);
+    }
 }
 
 // This method is called when your extension is deactivated
